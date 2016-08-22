@@ -10,10 +10,12 @@
     "cookie-parser": "~1.4.3",
     "crypto": "0.0.3",
     "debug": "~2.2.0",
+    "ejs": "^2.5.1",
     "express": "~4.13.4",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
+    "wechat-api": "^1.28.0",
     "weixin-api": "^0.1.7",
     "weixin-robot": "^0.5.10"
   }

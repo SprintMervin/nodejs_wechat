@@ -1,0 +1,36 @@
+{
+  "button":[
+    {
+      "type":"view",
+      "name":"个人主页",
+      "url":"http://ifuncc.com"
+    },
+
+    {
+      "type":"view",
+      "name":"Test",
+      "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx99f71b2b053c5855&redirect_uri=http://hui.ngrok.taidii.com/test&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+    },
+
+    {
+      "name":"菜单",
+      "sub_button":[
+        {
+          "type":"view",
+          "name":"搜索",
+          "url":"http://www.soso.com/"
+        },
+        {
+          "type":"view",
+          "name":"视频",
+          "url":"http://v.qq.com/"
+        },
+        {
+          "type":"click",
+          "name":"赞一下我们",
+          "key":"V1001_GOOD"
+        }
+      ]
+    }
+  ]
+}

@@ -3,62 +3,50 @@
  */
 var express = require('express');
 var webot = require('weixin-robot');
-
+var API = require('wechat-api');
+var config = require('./config');
 var app = express();
 
 // 指定回复消息
-webot.set('hi', '你好');
+webot.set('help','点击访问我的主页 ifuncc.com');
 
 webot.set('subscribe', {
     pattern: function(info) {
         return info.is('event') && info.param.event === 'subscribe';
     },
     handler: function(info) {
-        return '欢迎访问我的首页';
+        return '欢迎关注 如需帮助请输入 help';
     }
 });
 
+//匹配正则
 webot.set('test', {
     pattern: /^test/i,
     handler: function(info, next) {
         next(null, 'roger that!')
     }
-})
-
-// 你可以获取已定义的 rule
-//
-// webot.get('subscribe') ->
-//
-// {
-//   name: 'subscribe',
-//   pattern: function(info) {
-//     return info.is('event') && info.param.event === 'subscribe';
-//   },
-//   handler: function(info) {
-//     return '欢迎订阅微信机器人';
-//   }
-// }
-//
+});
 
 // 接管消息请求
 webot.watch(app, { token: 'huitest', path: '/' });
 
-// 如果需要多个实例（即为多个微信账号提供不同回复）：
-// var webot2 = new webot.Webot();
-// webot2.set({
-//     '/hi/i': 'Hello',
-//     '/who (are|r) (you|u)/i': 'I\'m a robot.'
-// });
-// webot2.watch(app, {
-//     token: 'token2',
-//     path: '/wechat_en', // 这个path不能为之前已经监听过的path的子目录
-// });
+//创建自定义菜单
+var api = new API(config.appid, config.appsecret);
+/*null
+ { accessToken: 'bMawBdyY5idQLeX_-ODTWZVhOd51yIklU3oYPeeLTg_8BmqrmUAEEvszsKGDLconZxHOx6Nwd32W50X7ThzBWzgOCQanOeg4Vwv3xMhN7KU',
+ expireTime: 1445244891114 }
+ { errcode: 0, errmsg: 'ok' }*/
+api.getAccessToken(function (err, token) {
+    console.log(err);
+    console.log(token);
+});
 
-// 启动 Web 服务
-// 微信后台只允许 80 端口
-app.listen(3000);
+var menu = JSON.stringify(require('./menu.json'));
+api.createMenu(menu, function (err, result) {
+    console.log(result);
+});
 
-// 如果你不想让 node 应用直接监听 80 端口
-// 可以尝试用 nginx 或 apache 自己做一层 proxy
-// app.listen(process.env.PORT);
-// app.enable('trust proxy');
+// 启动监听
+var server = app.listen(3000,function() {
+    console.log('Listening on port %d',server.address().port);
+});
